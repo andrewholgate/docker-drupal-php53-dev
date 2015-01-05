@@ -1,6 +1,9 @@
 FROM drupal-ubuntu:latest
 MAINTAINER Andrew Holgate <andrewholgate@yahoo.com>
 
+RUN apt-get update
+RUN apt-get -y upgrade
+
 # Install useful OS tools
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install nano htop
 
@@ -15,10 +18,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install python-sphinx python-pip d
 RUN DEBIAN_FRONTEND=noninteractive pip install sphinx_rtd_theme breathe
 
 # Install XDebug
-RUN DEBIAN_FRONTEND=noninteractive pecl install xdebug
-RUN echo 'zend_extension="/usr/local/php/modules/xdebug.so"' >> /etc/php5/apache2/php.ini
+RUN DEBIAN_FRONTEND=noninteractive pecl install xdebug xhprof
+RUN echo 'zend_extension="/usr/lib/php5/20090626/xdebug.so"' >> /etc/php5/apache2/php.ini
 
-# @todo add Webgrind https://github.com/jokkedk/webgrind
+# Install XHProf
+RUN DEBIAN_FRONTEND=noninteractive pecl install -f xhprof
+RUN echo 'extension=xhprof.so' >> /etc/php5/apache2/php.ini
+RUN echo 'xhprof.output_dir="/tmp/xhprof"' >> /etc/php5/apache2/php.ini
+
+# Install KCacheGrind
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install kcachegrind
 
 # Clean-up installation.
 RUN DEBIAN_FRONTEND=noninteractive apt-get autoclean
