@@ -29,6 +29,19 @@ COPY xhprof.ini /etc/php5/apache2/conf.d/xhprof.ini
 COPY xhprof.conf /etc/apache2/conf.d/xhprof.conf
 RUN mkdir /tmp/xhprof && chown www-data:www-data /tmp/xhprof
 
+CMD mkdir /var/www/log
+CMD ln -s /var/log/apache2/error.log /var/www/log/
+CMD ln -s /var/log/apache2/access.log /var/www/log/
+CMD ln -s /var/log/drupal.log /var/www/log/
+CMD ln -s /var/log/syslog /var/www/log/
+CMD ln -s /var/log/xdebug/xdebug.log /var/www/log/
+CMD echo "alias taillog='tail -f /var/www/log/drupal.log /var/www/log/error.log /var/www/log/syslog'" >> ~/.bashrc
+
+CMD chown -R www-data:www-data /var/www/*
+
+# Symlink APC monitor to be smylinked into the htdocs later.
+CMD ln -s /usr/share/php/apc.php /var/www/
+
 # Clean-up installation.
 RUN DEBIAN_FRONTEND=noninteractive apt-get autoclean
 
