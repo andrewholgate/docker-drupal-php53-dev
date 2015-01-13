@@ -18,16 +18,16 @@ RUN DEBIAN_FRONTEND=noninteractive apt-get -y install python-sphinx python-pip d
 RUN DEBIAN_FRONTEND=noninteractive pip install sphinx_rtd_theme breathe
 
 # Install XDebug
-RUN DEBIAN_FRONTEND=noninteractive pecl install xdebug xhprof
-RUN echo 'zend_extension="/usr/lib/php5/20090626/xdebug.so"' >> /etc/php5/apache2/php.ini
+RUN DEBIAN_FRONTEND=noninteractive pecl install xdebug
+COPY xdebug.ini /etc/php5/apache2/conf.d/xdebug.ini
+RUN mkdir /tmp/xdebug && chown www-data:www-data /tmp/xdebug
+RUN mkdir /var/log/xdebug && chown www-data:www-data /var/log/xdebug
 
 # Install XHProf
 RUN DEBIAN_FRONTEND=noninteractive pecl install -f xhprof
-RUN echo 'extension=xhprof.so' >> /etc/php5/apache2/php.ini
-RUN echo 'xhprof.output_dir="/tmp/xhprof"' >> /etc/php5/apache2/php.ini
-
-# Install KCacheGrind
-RUN DEBIAN_FRONTEND=noninteractive apt-get -y install kcachegrind
+COPY xhprof.ini /etc/php5/apache2/conf.d/xhprof.ini
+COPY xhprof.conf /etc/apache2/conf.d/xhprof.conf
+RUN mkdir /tmp/xhprof && chown www-data:www-data /tmp/xhprof
 
 # Clean-up installation.
 RUN DEBIAN_FRONTEND=noninteractive apt-get autoclean
