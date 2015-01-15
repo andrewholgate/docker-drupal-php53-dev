@@ -40,6 +40,11 @@ RUN chown -R www-data:www-data /var/www/
 # Symlink APC monitor to be symlinked into the htdocs later.
 RUN ln -s /usr/share/php/apc.php /var/www/
 
+# Grant ubuntu user access to sudo with no password.
+RUN apt-get -y install sudo
+RUN echo "ubuntu ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+RUN usermod -a -G sudo ubuntu
+
 # Clean-up installation.
 RUN DEBIAN_FRONTEND=noninteractive apt-get autoclean
 
