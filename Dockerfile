@@ -27,18 +27,8 @@ RUN sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php5/cli/ph
 RUN sed -ri 's/^error_reporting\s*=.*$/error_reporting = E_ALL \& ~E_DEPRECATED \& ~E_NOTICE/g' /etc/php5/apache2/php.ini
 RUN sed -ri 's/^error_reporting\s*=.*$/error_reporting = E_ALL \& ~E_DEPRECATED \& ~E_NOTICE/g' /etc/php5/cli/php.ini
 
-RUN mkdir -p /var/www/log
-RUN ln -s /var/log/apache2/error.log /var/www/log/
-RUN ln -s /var/log/apache2/access.log /var/www/log/
-RUN ln -s /var/log/drupal.log /var/www/log/
-RUN ln -s /var/log/syslog /var/www/log/
+# Symlink log files.
 RUN ln -s /var/log/xdebug/xdebug.log /var/www/log/
-RUN echo "alias taillog='tail -f /var/www/log/drupal.log /var/www/log/error.log /var/www/log/syslog'" >> ~/.bashrc
-
-RUN chown -R www-data:www-data /var/www/
-
-# Symlink APC monitor to be symlinked into the htdocs later.
-RUN ln -s /usr/share/php/apc.php /var/www/
 
 # Grant ubuntu user access to sudo with no password.
 RUN apt-get -y install sudo
@@ -46,7 +36,7 @@ RUN echo "ubuntu ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 RUN usermod -a -G sudo ubuntu
 
 # Clean-up installation.
-RUN DEBIAN_FRONTEND=noninteractive apt-get autoclean
+RUN DEBIAN_FRONTEND=noninteractive apt-get autoclean && apt-get autoremove
 
 RUN /etc/init.d/apache2 restart
 
