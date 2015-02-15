@@ -21,6 +21,25 @@ RUN chown www-data:www-data /tmp/xhprof
 RUN DEBIAN_FRONTEND=noninteractive apt-get -y install python-sphinx python-pip doxygen
 RUN DEBIAN_FRONTEND=noninteractive pip install sphinx_rtd_theme breathe
 
+# Install tools via Composer.
+USER ubuntu
+RUN composer global require squizlabs/php_codesniffer:~2.0
+RUN composer global require drupal/coder:~8.0
+RUN composer global require andrewholgate/drupalstrict:~0.1
+RUN composer global require phing/phing:~2.0
+RUN composer global require pdepend/pdepend:~2.0
+RUN composer global require phpmd/phpmd:~2.0
+RUN composer global require sebastian/phpcpd:~2.0
+RUN composer global require sebastian/phpdcd:~1.0
+RUN composer global require phploc/phploc:~2.0
+RUN composer global require phpunit/phpunit:~4.0
+RUN ln -s $COMPOSER_HOME/vendor/drupal/coder/coder_sniffer/Drupal $COMPOSER_HOME/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/
+RUN ln -s $COMPOSER_HOME/vendor/andrewholgate/drupalstrict/DrupalStrict $COMPOSER_HOME/vendor/squizlabs/php_codesniffer/CodeSniffer/Standards/
+
+USER root
+# Add tools installed via composer to PATH.
+RUN echo "export PATH=/home/ubuntu/.composer/vendor/bin:$PATH" >> /etc/bash.bashrc
+
 # Turn on PHP error reporting
 RUN sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php5/apache2/php.ini
 RUN sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php5/cli/php.ini
