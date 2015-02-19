@@ -1,6 +1,6 @@
 # About
 
-The Drupal 7 Ubuntu Docker container is the development companion to the [docker-drupal-ubuntu](https://github.com/andrewholgate/docker-drupal-ubuntu) project.
+This Ubuntu 12.04 Docker container is the development companion to the [docker-drupal-ubuntu12.04](https://github.com/andrewholgate/docker-drupal-ubuntu12.04) project.
 
 # Included Tools
 
@@ -40,20 +40,20 @@ sudo docker run -d --name mysql-drupal-dev mysql:5.5 --entrypoint /bin/echo MySQ
 
 ```bash
 # Clone Drupal base docker repository
-git clone https://github.com/andrewholgate/docker-drupal-ubuntu.git
+git clone https://github.com/andrewholgate/docker-drupal-ubuntu12.04.git
 # Build docker image
-cd docker-drupal-ubuntu
-sudo docker build --rm=true --tag="drupal-ubuntu" .
+cd docker-drupal-ubuntu12.04
+sudo docker build --rm=true --tag="drupal-ubuntu12.04" .
 ```
 
 ## Build Project Development Image
 
 ```bash
 # Clone Drupal development docker repository
-git clone https://github.com/andrewholgate/docker-drupal-ubuntu-dev.git
+git clone https://github.com/andrewholgate/docker-drupal-ubuntu12.04-dev.git
 # Build docker image
-cd docker-drupal-ubuntu-dev
-sudo docker build --rm=true --tag="drupal-ubuntu-dev" .
+cd docker-drupal-ubuntu12.04-dev
+sudo docker build --rm=true --tag="drupal-ubuntu12.04-dev" .
 ```
 
 ## Build Project using fig
@@ -71,7 +71,7 @@ From the host server, add the web container IP address to the hosts file.
 ```bash
 # Add IP address to hosts file.
 sudo bash -c "echo $(sudo docker inspect -f '{{ .NetworkSettings.IPAddress }}' \
-dockerdrupalubuntudev_drupaldevweb_1) \
+dockerdrupalubuntu1204dev_drupalubuntu12devweb_1) \
 drupaldev.example.com \
 >> /etc/hosts"
 ```
@@ -80,5 +80,5 @@ drupaldev.example.com \
 
 ```bash
 # Using the container name of the web frontend.
-sudo docker exec -it dockerdrupalubuntudev_drupaldevweb_1 su - ubuntu
+sudo docker exec -it dockerdrupalubuntu1204dev_drupalubuntu12devweb_1 su - ubuntu
 ```

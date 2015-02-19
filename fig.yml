@@ -1,4 +1,4 @@
-drupaldevweb:
+drupalubuntu12devweb:
   build: .
   ports:
     - "82:80"
