@@ -43,7 +43,7 @@ sudo docker run -d --name mysql-drupal-dev mysql:5.5 --entrypoint /bin/echo MySQ
 git clone https://github.com/andrewholgate/docker-drupal-ubuntu12.04.git
 # Build docker image
 cd docker-drupal-ubuntu12.04
-sudo docker build --rm=true --tag="drupal-ubuntu12.04" .
+sudo docker build --rm=true --tag="drupal-ubuntu12.04" . | tee ./build.log
 ```
 
 ## Build Project Development Image
@@ -53,15 +53,15 @@ sudo docker build --rm=true --tag="drupal-ubuntu12.04" .
 git clone https://github.com/andrewholgate/docker-drupal-ubuntu12.04-dev.git
 # Build docker image
 cd docker-drupal-ubuntu12.04-dev
-sudo docker build --rm=true --tag="drupal-ubuntu12.04-dev" .
+sudo docker build --rm=true --tag="drupal-ubuntu12.04-dev" . | tee ./build.log
 ```
 
-## Build Project using fig
+## Build Project using Docker Compose
 
 ```bash
-# Build docker containers using fig.
-sudo fig build
-sudo fig up -d
+# Build docker containers using Docker Compose.
+sudo docker-compose build
+sudo docker-compose up -d
 ```
 
 ## Host Access
