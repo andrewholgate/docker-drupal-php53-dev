@@ -1,17 +1,17 @@
-drupalubuntu12devweb:
+drupalphp53devweb:
   build: .
   ports:
     - "82:80"
     - "445:443"
   links:
-   - drupaldevdb:database
-drupaldevdb:
+   - drupalphp53devdb:database
+drupalphp53devdb:
   image: mysql:5.5
   volumes_from:
-    - mysql-drupal-dev
+    - mysql-drupal-php53-dev
   environment:
     TERM: xterm
     MYSQL_ROOT_PASSWORD: password
     MYSQL_USER: user
     MYSQL_PASSWORD: password
-    MYSQL_DATABASE: drupal
+    MYSQL_DATABASE: drupalphp53dev

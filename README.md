@@ -1,6 +1,6 @@
 # About
 
-This Ubuntu 12.04 Docker container is the development companion to the [docker-drupal-ubuntu12.04](https://github.com/andrewholgate/docker-drupal-ubuntu12.04) project.
+This Docker container with PHP 5.3 on Ubuntu 12.04 is the development companion to the [docker-drupal-php53](https://github.com/andrewholgate/docker-drupal-php53) project.
 
 # Included Tools
 
@@ -8,19 +8,6 @@ This Ubuntu 12.04 Docker container is the development companion to the [docker-d
 
 - [XDebug](http://www.xdebug.org/) - PHP debugging and profiling.
 - [XHProf](http://pecl.php.net/package/xhprof) - function-level hierarchical profiler.
-
-## Code Inspection Tools
-
-- [Drupal Coder](https://www.drupal.org/project/coder) - defines Drupal coding standards.
-- [Drupal Strict](https://github.com/andrewholgate/drupalstrict) - defines strict Drupal and PHP coding standards.
-- [PHP Code Sniffer](https://github.com/squizlabs/PHP_CodeSniffer) - detect violations of coding standards.
-- [PHP Mess Detector (PHPMD)](http://phpmd.org/) - discover possible bugs and suboptimal code.
-- [PHP Copy/Paste Detector (PHPCPD)](https://github.com/sebastianbergmann/phpcpd) - detect copy/pasted code.
-- [PHP Dead Code Detector (PHPDCD)](https://github.com/sebastianbergmann/phpdcd) - discover unused PHP code.
-- [PHP Lines of Code (PHPLoC)](https://github.com/sebastianbergmann/phploc) - measuring the size of a project.
-- [PHP Depend (PHPMD)](http://pdepend.org/) - generate design quality metrics.
-- [Phing](http://www.phing.info/) - project build tool.
-- [PHPUnit](https://phpunit.de/) - unit testing PHP code.
 
 ## PHP Documentation Tools
 
@@ -33,32 +20,38 @@ This Ubuntu 12.04 Docker container is the development companion to the [docker-d
 
 ```bash
 # Build database image based off MySQL 5.5
-sudo docker run -d --name mysql-drupal-dev mysql:5.5 --entrypoint /bin/echo MySQL data-only container for Drupal Dev MySQL
+sudo docker run -d --name mysql-drupal-php53-dev mysql:5.5 --entrypoint /bin/echo MySQL data-only container for Drupal Dev MySQL
 ```
 
 ## Build Drupal Base Image
 
 ```bash
 # Clone Drupal base docker repository
-git clone https://github.com/andrewholgate/docker-drupal-ubuntu12.04.git
+git clone https://github.com/andrewholgate/docker-drupal-php53.git
+
 # Build docker image
-cd docker-drupal-ubuntu12.04
-sudo docker build --rm=true --tag="drupal-ubuntu12.04" . | tee ./build.log
+cd docker-drupal-php53
+sudo docker build --rm=true --tag="drupal-php53" . | tee ./build.log
 ```
 
 ## Build Project Development Image
 
 ```bash
 # Clone Drupal development docker repository
-git clone https://github.com/andrewholgate/docker-drupal-ubuntu12.04-dev.git
+git clone https://github.com/andrewholgate/docker-drupal-php53-dev.git
+
 # Build docker image
-cd docker-drupal-ubuntu12.04-dev
-sudo docker build --rm=true --tag="drupal-ubuntu12.04-dev" . | tee ./build.log
+cd docker-drupal-php53-dev
+sudo docker build --rm=true --tag="drupal-php53-dev" . | tee ./build.log
 ```
 
 ## Build Project using Docker Compose
 
 ```bash
+# Customise docker-compose.yml configurations for environment.
+cp docker-compose.yml.dist docker-compose.yml
+vim docker-compose
+
 # Build docker containers using Docker Compose.
 sudo docker-compose build
 sudo docker-compose up -d
@@ -71,8 +64,8 @@ From the host server, add the web container IP address to the hosts file.
 ```bash
 # Add IP address to hosts file.
 sudo bash -c "echo $(sudo docker inspect -f '{{ .NetworkSettings.IPAddress }}' \
-dockerdrupalubuntu1204dev_drupalubuntu12devweb_1) \
-drupaldev.example.com \
+dockerdrupalphp53dev_drupalphp53devweb_1) \
+drupalphp53dev.example.com \
 >> /etc/hosts"
 ```
 
@@ -80,5 +73,5 @@ drupaldev.example.com \
 
 ```bash
 # Using the container name of the web frontend.
-sudo docker exec -it dockerdrupalubuntu1204dev_drupalubuntu12devweb_1 su - ubuntu
+sudo docker exec -it dockerdrupalphp53dev_drupalphp53devweb_1 su - ubuntu
 ```
