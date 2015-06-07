@@ -28,6 +28,21 @@ COPY xdebug.ini /etc/php5/apache2/conf.d/xdebug.ini
 RUN mkdir /tmp/xdebug && chown www-data:www-data /tmp/xdebug
 RUN mkdir /var/log/xdebug && chown www-data:www-data /var/log/xdebug
 
+# Install JRE (needed for some testing tools like sitespeed.io) and libs for PhantomJS.
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install default-jre libfreetype6 libfontconfig
+
+# Front-end tools
+RUN npm install -g bower phantomjs
+
+# Setup for Wraith
+RUN DEBIAN_FRONTEND=noninteractive apt-get -y install imagemagick && \
+    gpg --keyserver hkp://keys.gnupg.net --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 && \
+    \curl -sSL https://get.rvm.io | bash -s stable --ruby && \
+    /bin/bash -l -c "source /usr/local/rvm/scripts/rvm" && \
+    /bin/bash -l -c "rvm default" && \
+    /bin/bash -l -c "rvm rubygems current" && \
+    /bin/bash -l -c "gem install wraith"
+
 # Turn on PHP error reporting
 RUN sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php5/apache2/php.ini
 RUN sed -ri 's/^display_errors\s*=\s*Off/display_errors = On/g' /etc/php5/cli/php.ini

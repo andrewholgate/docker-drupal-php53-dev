@@ -9,10 +9,19 @@ This Docker container with PHP 5.3 on Ubuntu 12.04 is the development companion 
 - [XDebug](http://www.xdebug.org/) - PHP debugging and profiling.
 - [XHProf](http://pecl.php.net/package/xhprof) - function-level hierarchical profiler.
 
+## Front-end Tools
+
+- [Bower](http://bower.io/) - front-end package management.
+- [Wraith](https://github.com/BBC-News/wraith) - for visual regression testing.
+- [PhantomJS](http://phantomjs.org/) - for smoke tests.
+
 ## PHP Documentation Tools
 
 - [DoxyGen](http://www.doxygen.org) - generate documentation from annotated PHP code. It is used to generate XML which is then interpreted by Sphinx.
 - [Sphinx](http://sphinx-doc.org/) - generate beautiful [Read The Docs](http://docs.readthedocs.org/en/latest/) format using [Breathe](https://breathe.readthedocs.org/) as a bridge to DoxyGen XML output.
+
+# Other
+- Java Runtime Environment (JRE) - project dev tools like [sitespeed.io](http://www.sitespeed.io/) need this.
 
 # Installation
 
